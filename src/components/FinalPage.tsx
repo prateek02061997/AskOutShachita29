@@ -15,8 +15,6 @@ import {
   Calendar,
   Clock,
   Compass,
-  FileText,
-  Download,
   Loader2,
   CheckCircle2,
   ArrowRight,
@@ -25,8 +23,6 @@ import {
 import { lofiSynth } from '../utils/webAudioSynth';
 
 interface Props {
-  herName: string;
-  quizAnswer: string;
   onReset: () => void;
 }
 
@@ -64,7 +60,7 @@ const DATE_ACTIVITIES: ActivityOption[] = [
   },
 ];
 
-export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => {
+export const FinalPage: React.FC<Props> = ({ onReset }) => {
   // Navigation sub-steps within FinalPage:
   // 'choice' -> 'activity' -> 'datetime' -> 'confirm' -> 'done'
   const [step, setStep] = useState<'choice' | 'activity' | 'datetime' | 'confirm' | 'done'>('choice');
@@ -74,15 +70,12 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
   const [selectedActivity, setSelectedActivity] = useState<ActivityOption>(DATE_ACTIVITIES[0]);
   const [selectedDay, setSelectedDay] = useState<string>('Friday');
   const [selectedTime, setSelectedTime] = useState<string>('Evening');
-  const [additionalMessage, setAdditionalMessage] = useState<string>('');
-
   // Nudge states for options 2 & 3
   const [nudgeMessage, setNudgeMessage] = useState<string | null>(null);
   const [shakeYes, setShakeYes] = useState<boolean>(false);
 
   // Submission & Action states
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submittedId, setSubmittedId] = useState<number | null>(null);
   const [copied, setCopied] = useState<boolean>(false);
 
   const fireConfetti = () => {
@@ -143,7 +136,6 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
     };
 
     try {
-      // 1. Send form response directly to your Gmail via FormSubmit (Works on GitHub Pages, Vercel, Netlify, or Local)
       await fetch(`https://formsubmit.co/ajax/${TARGET_GMAIL}`, {
         method: 'POST',
         headers: {
@@ -151,19 +143,6 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
           'Accept': 'application/json',
         },
         body: JSON.stringify(formPayload),
-      });
-
-      // 2. Also attempt local API endpoint if running custom server
-      await fetch('/api/sendForm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          selectedActivity: selectedActivity ? selectedActivity.title : 'Not specified',
-          selectedDay: selectedDay || 'Not specified',
-          selectedTime: selectedTime || 'Not specified',
-        }),
-      }).catch(() => {
-        // Ignore local server error if on static hosting
       });
     } catch (err) {
       console.error('Error submitting response:', err);
@@ -468,21 +447,6 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
               </div>
             </div>
 
-            {/* Optional Suggestion Textbox */}
-            <div className="w-full text-left space-y-2">
-              <label className="text-xs font-bold text-white/80 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-[#1DB954]" />
-                <span>Anything else you want to suggest?</span>
-              </label>
-              <textarea
-                value={additionalMessage}
-                onChange={(e) => setAdditionalMessage(e.target.value)}
-                placeholder="Suggest a specific place, song, or note..."
-                rows={3}
-                className="w-full p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#1DB954] transition-colors resize-none placeholder:text-white/30"
-              />
-            </div>
-
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -548,15 +512,6 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
                 <span className="text-sm font-bold text-white">{selectedTime}</span>
               </div>
 
-              {additionalMessage.trim() && (
-                <div className="flex flex-col gap-1 border-b border-white/10 pb-2.5">
-                  <span className="text-xs font-bold text-white/60 uppercase">Suggestions / Note:</span>
-                  <p className="text-xs text-white/90 italic bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                    &ldquo;{additionalMessage}&rdquo;
-                  </p>
-                </div>
-              )}
-
               <div className="pt-1 text-center">
                 <p className="text-sm font-extrabold text-[#1DB954]">
                   Looking forward to it 😊
@@ -604,7 +559,7 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
                 Okay, see you then! 😊
               </h2>
               <p className="text-lg font-bold text-white">
-                Be ready, I&apos;ll pick you up!
+                Be ready, Prateek will pick you up!
               </p>
             </div>
 
@@ -622,14 +577,6 @@ export const FinalPage: React.FC<Props> = ({ herName, quizAnswer, onReset }) => 
                   {selectedDay} ({selectedTime})
                 </span>
               </div>
-              {additionalMessage.trim() && (
-                <div className="pt-1">
-                  <span className="text-xs font-bold text-white/60 uppercase block mb-1">Note:</span>
-                  <p className="text-xs text-white/80 italic">
-                    &ldquo;{additionalMessage}&rdquo;
-                  </p>
-                </div>
-              )}
             </div>
           </motion.div>
         )}

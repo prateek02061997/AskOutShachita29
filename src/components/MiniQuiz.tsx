@@ -7,18 +7,14 @@ import { lofiSynth } from '../utils/webAudioSynth';
 
 interface Props {
   onContinue: () => void;
-  onSelectQuizAnswer?: (answer: string) => void;
 }
 
-export const MiniQuiz: React.FC<Props> = ({ onContinue, onSelectQuizAnswer }) => {
+export const MiniQuiz: React.FC<Props> = ({ onContinue }) => {
   const [selectedOption, setSelectedOption] = useState<QuizOption | null>(null);
 
   const handleSelect = (option: QuizOption) => {
     lofiSynth.playPopSound();
     setSelectedOption(option);
-    if (onSelectQuizAnswer) {
-      onSelectQuizAnswer(option.label);
-    }
   };
 
   return (

@@ -18,7 +18,6 @@ import { CustomizeModal } from './components/CustomizeModal';
 export default function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [herName, setHerName] = useState<string>('');
-  const [quizAnswer, setQuizAnswer] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   const totalPages = 11; // 1-10 story pages + 11 final page
@@ -63,13 +62,10 @@ export default function App() {
             <MiniQuiz
               key="mini-quiz"
               onContinue={handleContinue}
-              onSelectQuizAnswer={(ans) => setQuizAnswer(ans)}
             />
           ) : currentPage === 11 ? (
             <FinalPage
               key="final-page"
-              herName={herName}
-              quizAnswer={quizAnswer}
               onReset={handleReset}
             />
           ) : (
