@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { BackgroundElements } from './components/BackgroundElements';
 import { ProgressBar } from './components/ProgressBar';
-import { AudioPlayer } from './components/AudioPlayer';
 import { SpotifyMiniPlayer } from './components/SpotifyMiniPlayer';
 import { StoryPage } from './components/StoryPage';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -39,9 +38,6 @@ export default function App() {
     <div className="min-h-screen bg-[#0b100d] text-zinc-100 flex flex-col justify-between font-sans selection:bg-emerald-500 selection:text-zinc-950 relative overflow-x-hidden">
       {/* Background Ambient FX & Floating Music Notes */}
       <BackgroundElements pageId={currentPage} />
-
-      {/* Top Controls: Audio Music Synth Toggle */}
-      <AudioPlayer />
 
       {/* Top Story Chapter Progress Bar */}
       <ProgressBar
