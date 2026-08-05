@@ -13,12 +13,10 @@ import { StoryPage } from './components/StoryPage';
 import { LoadingScreen } from './components/LoadingScreen';
 import { MiniQuiz } from './components/MiniQuiz';
 import { FinalPage } from './components/FinalPage';
-import { CustomizeModal } from './components/CustomizeModal';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [herName, setHerName] = useState<string>('');
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   const totalPages = 11; // 1-10 story pages + 11 final page
 
@@ -50,7 +48,6 @@ export default function App() {
         currentPage={currentPage}
         totalPages={totalPages}
         onBack={handleBack}
-        onOpenSettings={() => setIsSettingsOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -81,14 +78,6 @@ export default function App() {
 
       {/* Bottom Floating Mini Spotify Player */}
       <SpotifyMiniPlayer currentPage={currentPage} />
-
-      {/* Customization Modal */}
-      <CustomizeModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        herName={herName}
-        onSaveName={(name) => setHerName(name)}
-      />
     </div>
   );
 }

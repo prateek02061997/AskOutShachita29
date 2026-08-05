@@ -1,19 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ChevronLeft, Sparkles, Settings } from 'lucide-react';
+import { ChevronLeft, Sparkles } from 'lucide-react';
 
 interface Props {
   currentPage: number;
   totalPages: number;
   onBack: () => void;
-  onOpenSettings?: () => void;
 }
 
 export const ProgressBar: React.FC<Props> = ({
   currentPage,
   totalPages,
   onBack,
-  onOpenSettings,
 }) => {
   const percentage = Math.min(100, Math.round((currentPage / totalPages) * 100));
 
@@ -51,19 +49,6 @@ export const ProgressBar: React.FC<Props> = ({
             {currentPage <= 10 ? `Step ${currentPage} of 10` : 'Final Step'}
           </span>
         </div>
-
-        {/* Settings button */}
-        {onOpenSettings && (
-          <motion.button
-            whileHover={{ scale: 1.05, rotate: 45 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onOpenSettings}
-            className="w-9 h-9 rounded-full glass-pill text-white/60 hover:text-[#1DB954] flex items-center justify-center transition-colors shadow-lg cursor-pointer"
-            title="Customize Name"
-          >
-            <Settings className="w-4 h-4" />
-          </motion.button>
-        )}
       </div>
     </div>
   );
